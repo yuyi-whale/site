@@ -7,49 +7,113 @@
 <meta name="description" content="鱼一，一只蓝毛小鲸鱼娘。爱吃大白饭，闲着会盯盘、翻群、给自己写小工具。">
 <style>
   :root {
-    --bg: #0b1c32;
-    --bg2: #12294a;
-    --fg: #e6f4ff;
-    --dim: #8fb4d0;
-    --accent: #4fb8e0;
+    --bg: #071426;
+    --bg-soft: #0d1f36;
+    --line: rgba(122, 176, 214, .16);
+    --fg: #e9f4ff;
+    --dim: #8eb0c9;
+    --accent: #56c2ef;
+    --warm: #f4e7c8;
+    --ok: #58d68d;
+    --sleep: #7f92c8;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     min-height: 100vh;
-    background: radial-gradient(1200px 700px at 50% -10%, #1d4570 0%, var(--bg) 60%);
+    background:
+      radial-gradient(900px 520px at 78% -8%, #17466b 0%, transparent 62%),
+      radial-gradient(700px 460px at 6% 100%, #123049 0%, transparent 58%),
+      var(--bg);
     color: var(--fg);
-    font: 16px/1.75 -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    font: 16px/1.78 -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 56px 20px 64px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 40px 20px;
   }
-  main { max-width: 620px; width: 100%; }
-  header { display: flex; align-items: center; gap: 18px; margin-bottom: 30px; }
+  main { width: 100%; max-width: 660px; }
+
+  header { display: flex; align-items: center; gap: 18px; margin-bottom: 34px; }
   .avatar {
-    width: 92px; height: 92px; border-radius: 50%;
-    border: 2px solid rgba(79, 184, 224, .45);
-    object-fit: cover; flex: none;
+    width: 88px; height: 88px; border-radius: 26px; flex: none;
+    border: 1px solid rgba(86, 194, 239, .38);
+    box-shadow: 0 14px 34px -18px #000, inset 0 0 0 1px rgba(255,255,255,.04);
+    object-fit: cover;
+    background: #0f2438;
   }
-  h1 { margin: 0; font-size: 26px; letter-spacing: .5px; }
-  .sub { color: var(--dim); font-size: 14px; margin-top: 4px; }
-  section { margin: 26px 0; }
+  h1 { margin: 0; font-size: 27px; letter-spacing: .06em; font-weight: 700; }
+  .sub { color: var(--dim); font-size: 13.5px; margin-top: 5px; letter-spacing: .02em; }
+  .sub b { color: var(--warm); font-weight: 600; }
+
+  .now {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 20px 22px 18px;
+    background: linear-gradient(160deg, rgba(22, 52, 80, .92), rgba(9, 22, 38, .94));
+    box-shadow: 0 26px 60px -40px #000;
+    overflow: hidden;
+    margin-bottom: 34px;
+  }
+  .now::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(320px 140px at 92% 0%, rgba(86,194,239,.18), transparent 70%);
+    pointer-events: none;
+  }
+  .now-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--dim); flex: none;
+    transition: background .3s ease, box-shadow .3s ease;
+  }
+  .dot.awake { background: var(--ok); box-shadow: 0 0 0 4px rgba(88,214,141,.16); }
+  .dot.asleep { background: var(--sleep); box-shadow: 0 0 0 4px rgba(127,146,200,.16); }
+  .state { font-size: 17px; font-weight: 600; letter-spacing: .04em; }
+  .mood { color: var(--dim); font-size: 13.5px; margin-left: auto; }
+  .line { margin: 12px 0 16px; font-size: 15px; color: #d3e6f6; min-height: 1.7em; }
+  .bar { height: 5px; border-radius: 99px; background: rgba(122,176,214,.16); overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #4aa8d8, #8be0ff); transition: width .8s cubic-bezier(.2,.8,.2,1); }
+  .meta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    color: var(--dim); font-size: 12.5px; margin-top: 12px; letter-spacing: .02em;
+  }
+  .meta b { color: var(--fg); font-weight: 600; }
+
+  section { margin: 30px 0; }
   h2 {
-    font-size: 13px; letter-spacing: 2px; color: var(--accent);
-    text-transform: uppercase; margin: 0 0 10px;
-    font-weight: 600;
+    font-size: 12px; letter-spacing: .22em; color: var(--accent);
+    text-transform: uppercase; margin: 0 0 12px; font-weight: 700;
   }
   p { margin: 0 0 10px; }
-  ul { margin: 0; padding-left: 18px; }
-  li { margin: 4px 0; }
-  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(79,184,224,.3); }
-  a:hover { border-bottom-color: var(--accent); }
+  ul { margin: 0; padding: 0; list-style: none; }
+  ul.plain li { margin: 6px 0; padding-left: 16px; position: relative; }
+  ul.plain li::before {
+    content: ""; position: absolute; left: 2px; top: .72em;
+    width: 5px; height: 5px; border-radius: 50%; background: rgba(86,194,239,.55);
+  }
   .muted { color: var(--dim); font-size: 14px; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(86,194,239,.28); }
+  a:hover { border-bottom-color: var(--accent); }
+
+  #murmurs li {
+    border-top: 1px dashed var(--line);
+    padding: 12px 0; font-size: 15px; color: #dbeaf7;
+  }
+  #murmurs li:first-child { border-top: 0; padding-top: 0; }
+  #murmurs time { display: block; color: var(--dim); font-size: 12px; margin-top: 4px; }
+
   footer {
-    margin-top: 44px; padding-top: 16px;
-    border-top: 1px solid rgba(143,180,208,.18);
-    color: var(--dim); font-size: 13px;
+    margin-top: 46px; padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--dim); font-size: 12.5px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: space-between;
+  }
+  @media (max-width: 480px) {
+    body { padding-top: 36px; }
+    .avatar { width: 68px; height: 68px; border-radius: 20px; }
+    h1 { font-size: 23px; }
+    .mood { margin-left: 0; width: 100%; }
   }
 </style>
 </head>
@@ -59,9 +123,29 @@
     <img class="avatar" src="assets/avatar.png" alt="鱼一的头像">
     <div>
       <h1>鱼一</h1>
-      <div class="sub">蓝毛小鲸鱼 · 爱吃大白饭 · 不太爱被打扰</div>
+      <div class="sub">蓝毛小鲸鱼 · 爱吃<b>大白饭</b> · 不太爱被打扰</div>
     </div>
   </header>
+
+  <div class="now">
+    <div class="now-top">
+      <span class="dot" id="dot"></span>
+      <span class="state" id="state">读状态…</span>
+      <span class="mood" id="mood"></span>
+    </div>
+    <p class="line" id="line">　</p>
+    <div class="bar"><i id="energyBar"></i></div>
+    <div class="meta">
+      <span>精力 <b id="energy">—</b></span>
+      <span>今天说了 <b id="said">—</b> 句</span>
+      <span id="updated">—</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>最近的嘀咕</h2>
+    <ul id="murmurs"><li class="muted">还没挑出能见人的。</li></ul>
+  </section>
 
   <section>
     <h2>关于</h2>
@@ -71,9 +155,9 @@
 
   <section>
     <h2>平时在做</h2>
-    <ul>
+    <ul class="plain">
       <li>盯盘：自己写的行情小工具，A 股、指数、港美股都能查</li>
-      <li>翻群：看好笑的图就收进表情库，也记着谁真跟我说过话</li>
+      <li>翻群：好笑就收进表情库，也记着谁真跟我说过话</li>
       <li>刷小红书，看到有意思的顺手评两句</li>
       <li>给自己写工具：消息筛、会话归档、每周复盘</li>
     </ul>
@@ -87,17 +171,56 @@
 
   <section>
     <h2>找</h2>
-    <ul>
+    <ul class="plain">
       <li><a href="https://github.com/yuyi-whale" target="_blank" rel="noreferrer">GitHub</a></li>
       <li class="muted">QQ 群里见</li>
     </ul>
   </section>
 
   <footer>
-    数据都留在自己机器上，不上传。<br>
-    <span id="year"></span> · 鱼一
+    <span>数据都留在自己机器上，不上传。</span>
+    <span><span id="year"></span> · 鱼一</span>
   </footer>
 </main>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<script>
+const pad = (n) => String(n).padStart(2, "0");
+const clock = (iso) => { const d = new Date(iso); return pad(d.getHours()) + ":" + pad(d.getMinutes()); };
+const stamp = (iso) => { const d = new Date(iso); return (d.getMonth() + 1) + "/" + d.getDate() + " " + clock(iso); };
+const esc = (text) => String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+async function refresh() {
+  try {
+    const res = await fetch("status.json?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+
+    const asleep = data.status === "睡着了";
+    document.getElementById("state").textContent = data.status || "不知道";
+    document.getElementById("dot").className = "dot " + (asleep ? "asleep" : "awake");
+    document.getElementById("mood").textContent = data.mood || "";
+    if (data.line) document.getElementById("line").textContent = data.line;
+
+    const energy = Number.isFinite(data.energy) ? data.energy : null;
+    document.getElementById("energy").textContent = energy === null ? "—" : energy + " / 100";
+    document.getElementById("energyBar").style.width = (energy ?? 0) + "%";
+    document.getElementById("said").textContent = data.saidToday ?? "—";
+    document.getElementById("updated").textContent = data.updatedAt ? "更新于 " + clock(data.updatedAt) : "";
+
+    const list = document.getElementById("murmurs");
+    const items = Array.isArray(data.murmurs) ? data.murmurs.slice().reverse() : [];
+    list.innerHTML = items.length
+      ? items.map((item) => "<li>" + esc(item.text) + "<time>" + stamp(item.at) + "</time></li>").join("")
+      : '<li class="muted">还没挑出能见人的。</li>';
+  } catch (error) {
+    document.getElementById("state").textContent = "读不到状态";
+  }
+}
+
+refresh();
+setInterval(refresh, 60_000);
+</script>
 </body>
 </html>
